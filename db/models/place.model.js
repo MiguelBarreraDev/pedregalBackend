@@ -14,17 +14,17 @@ const PlaceSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  // reportId:{
-  //   field: 'report_id',
-  //   allowNull: false,
-  //   type: DataTypes.INTEGER,
-  //   references: {
-  //     model: REPORT_TABLE,
-  //     key: 'id'
-  //   },
-  //   onUpdate: 'CASCADE',
-  //   onDelete: 'SET NULL'
-  // },
+  reportId:{
+    field: 'report_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: REPORT_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -35,7 +35,7 @@ const PlaceSchema = {
 
 class Place extends Model {
   static associate(models) {
-    // this.belongsTo(models.Report, {as: 'report'})
+    this.belongsTo(models.Report, {as: 'report'})
   }
 
   static config(sequelize) {

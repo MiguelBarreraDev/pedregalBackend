@@ -1,5 +1,6 @@
 const {Model, DataTypes, Sequelize} = require('sequelize')
 const { REPORT_TABLE } = require('./report.model')
+
 const PERSON_TABLE = 'persons';
 
 const PersonSchema = {
@@ -52,7 +53,7 @@ const PersonSchema = {
 
 class Person extends Model{
   static associate(models) {
-    // this.belongsTo(models.Report, {as: 'report'})
+    this.belongsTo(models.Report, {as: 'report'})
   }
 
   static config(sequelize) {

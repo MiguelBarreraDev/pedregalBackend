@@ -9,7 +9,11 @@ class PersonService {
   }
 
   async find(){
-    const persons = await models.Person.findAll()
+    const persons = await models.Person.findAll(
+      {
+        include: ['report']
+      }
+    )
     return persons
   }
 }

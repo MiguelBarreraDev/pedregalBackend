@@ -12,6 +12,16 @@ router.get('/', async(req, res) =>{
   }
 })
 
+router.get('/:id', async(req, res) =>{
+  try {
+    const {id} = req.params
+    const report = await service.findOne(id)
+    res.json(report)
+  } catch (error) {
+
+  }
+})
+
 router.post('/', async(req, res) => {
   try {
     const body = req.body
@@ -24,5 +34,16 @@ router.post('/', async(req, res) => {
 router.patch('/:id', async(req, res)=>{
 
 })
+
+router.delete('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.json(id)
+    } catch (error) {
+      console.log("cagaste !!!")
+    }
+  }
+);
 
 module.exports = router

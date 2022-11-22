@@ -15,7 +15,6 @@ const ReportSchema = {
     field: 'tipos_id',
     allowNull: false,
     type: DataTypes.INTEGER,
-
     references: {
       model: TIPOS_TABLE,
       key: 'id'
@@ -23,17 +22,6 @@ const ReportSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
-  // personsId:{
-  //   field: 'persons_id',
-  //   allowNull: false,
-  //   type: DataTypes.INTEGER,
-  //   references: {
-  //     model: PERSON_TABLE,
-  //     key: 'id'
-  //   },
-  //   onUpdate: 'CASCADE',
-  //   onDelete: 'SET NULL'
-  // },
   fechaSuceso:{
     allowNull: false,
     field: 'fecha_suceso',
@@ -121,12 +109,14 @@ class Report extends Model{
       //   name: 'tiposId'
       // }
     });
-    // this.hasMany(models.Person, {
-    //   as: 'persons',
-    //   foreignKey: {
-    //     name: 'personsId'
-    //   }
-    // })
+    this.hasMany(models.Person, {
+      as: 'persons',
+      foreignKey: 'reportId'
+    } )
+    this.hasMany(models.Place, {
+      as: 'places',
+      foreignKey: 'reportId'
+    })
 
   }
 
