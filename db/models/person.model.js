@@ -53,7 +53,10 @@ const PersonSchema = {
 
 class Person extends Model{
   static associate(models) {
-    this.belongsTo(models.Report, {as: 'report'})
+    this.belongsTo(models.Report, {
+      onDelete: 'cascade',
+      as: 'report'
+    })
   }
 
   static config(sequelize) {

@@ -8,18 +8,17 @@ router.get('/', async(req, res) =>{
     const typeReport = await service.find()
     res.json(typeReport)
   } catch (error) {
-
+    console.error(error)
   }
 })
 
 router.post('/', async(req, res)=>{
   try {
     const body = req.body
-    console.log('llegue aqui')
     const newTipo = await service.create(body)
     res.json(newTipo)
   } catch (error) {
-
+    console.error(error)
   }
 })
 

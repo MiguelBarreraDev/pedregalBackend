@@ -6,7 +6,6 @@ class EvidenceSchema {
 
   }
   async find(){
-    console.log(`=> ${Object.values(models)}`)
     const evidence = await models.Evidence.findAll()
     return evidence
   }

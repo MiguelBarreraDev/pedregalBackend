@@ -4,7 +4,7 @@ const { REPORT_TABLE } = require('./report.model')
 const EVIDENCE_TABLE = 'evidence'
 
 const EvidenceSchema = {
-  id: {
+  id:{
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,

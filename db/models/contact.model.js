@@ -1,18 +1,15 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { REPORT_TABLE } = require('./report.model')
 
-const PLACE_TABLE = 'places'
+const CONTACT_TABLE = "contacts";
 
-const PlaceSchema = {
-  id: {
+
+const ContactSchema = {
+  id:{
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
-  },
-  name:{
-    allowNull: false,
-    type: DataTypes.STRING,
   },
   reportId:{
     field: 'report_id',
@@ -25,30 +22,48 @@ const PlaceSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
+  relation:{
+    allowNull: false,
+    type: DataTypes.STRING
+  },
+  anonymous:{
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
+  },
+  email: {
+    allowNull: false,
+    type: DataTypes.STRING
+  },
+  phone:{
+    allowNull: true,
+    type: DataTypes.STRING
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'create_at',
-    defaultValue: Sequelize.NOW
-  }
+    field: 'created_at',
+    defaultValue: Sequelize.NOW,
+  },
+
 }
 
-class Place extends Model {
-  static associate(models) {
+class Contact extends Model {
+  static associate(models){
     this.belongsTo(models.Report, {
       onDelete: 'cascade',
       as: 'report'
     })
   }
+  static config(sequelize){
+    return{
 
-  static config(sequelize) {
-    return {
       sequelize,
-      tableName: PLACE_TABLE,
-      modelName: 'Place',
+      tableName: CONTACT_TABLE,
+      modelName: 'Contact',
       timestamps: false
     }
   }
 }
 
-module.exports = { PLACE_TABLE, PlaceSchema, Place}
+module.exports = { CONTACT_TABLE, ContactSchema, Contact}

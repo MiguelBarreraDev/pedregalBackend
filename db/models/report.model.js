@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { TIPOS_TABLE } = require('./tipos.model');
-// const { PERSON_TABLE } = require('../models/person.model')
+const { CONDITION_TABLE } = require('./condition.model')
 
 const REPORT_TABLE = 'reports'
 
@@ -22,11 +22,15 @@ const ReportSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
-  fechaSuceso:{
+  fechaInicio:{
     allowNull: false,
-    field: 'fecha_suceso',
+    field: 'fecha_inicio',
     type: DataTypes.DATE,
-
+  },
+  fechaFin:{
+    allowNull: true,
+    field: 'fecha_fin',
+    type: DataTypes.DATE
   },
   description:{
     allowNull: false,
@@ -64,31 +68,18 @@ const ReportSchema = {
     allowNull: true,
     type: DataTypes.TEXT
   },
-  anonymous:{
+  conditionId:{
+    field: 'condition_id',
     allowNull: false,
-    type: DataTypes.BOOLEAN,
-    defaultValue: true
+    type: DataTypes.INTEGER,
+    defaultValue: 1,
+    references: {
+      model: CONDITION_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   },
-  email: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  phone:{
-    allowNull: true,
-    type: DataTypes.STRING
-  },
-  // statusId:{
-  //   field: 'status_id',
-  //   allowNull: false,
-  //   type: DataTypes.INTEGER,
-  //   unique: true,
-  //   references: {
-  //     model: STATUS_TABLE,
-  //     key: 'id'
-  //   },
-  //   onUpdate: 'CASCADE',
-  //   onDelete: 'SET NULL'
-  // },
   observation: {
     allowNull: true,
     type: DataTypes.TEXT
@@ -105,17 +96,27 @@ class Report extends Model{
   static associate(models) {
     this.belongsTo(models.Tipos, {
       as: 'tipos',
-      // foreignKey: {
-      //   name: 'tiposId'
-      // }
     });
     this.hasMany(models.Person, {
       as: 'persons',
-      foreignKey: 'reportId'
+      foreignKey: 'reportId',
+      onDelete: 'cascade',
+      hooks: true
     } )
     this.hasMany(models.Place, {
       as: 'places',
-      foreignKey: 'reportId'
+      foreignKey: 'reportId',
+      onDelete: 'cascade',
+      hooks: true
+    })
+    this.belongsTo(models.Condition, {
+      as: 'condition'
+    })
+    this.hasOne(models.Contact,{
+      as: 'contact',
+      foreignKey: 'reportId',
+      onDelete: 'cascade',
+      hooks: true
     })
 
   }
