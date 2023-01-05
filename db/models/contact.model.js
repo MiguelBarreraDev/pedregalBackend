@@ -14,7 +14,7 @@ const ContactSchema = {
   reportId:{
     field: 'report_id',
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     references: {
       model: REPORT_TABLE,
       key: 'id'

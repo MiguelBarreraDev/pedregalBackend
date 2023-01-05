@@ -18,7 +18,18 @@ router.post('/', async(req, res)=>{
     const newTipo = await service.create(body)
     res.json(newTipo)
   } catch (error) {
-    console.error(error)
+    res.status(400).json("not found")
+  }
+})
+
+router.delete('/:id', async(req, res) =>{
+  try {
+    const {id} = req.params
+    const dlt = await service.delete(id)
+    res.status(201).json(dlt)
+  } catch (error){
+    console.log(error)
+    res.status(400).json("not found")
   }
 })
 
