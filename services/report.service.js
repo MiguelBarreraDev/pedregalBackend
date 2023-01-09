@@ -44,42 +44,40 @@ class ReportService {
       await models.Place.create(place)
     }
 
+
     const filesDir = path.join(__dirname, '../uploads')
-    const files = fs.readdirSync(filesDir)
-    files.forEach(async file => {
-      const dataFile = {
-        evidence: fs.readFileSync(__dirname, '../uploads/' + file),
-        reportId: id
-      }
-      try {
-        await models.Evidence.create(completeData)
-      } catch (error) {
-        console.error(error)
-      }
-    });
 
+    const readFiles = fs.readdir(filesDir, (err, files) => {
+      if (err) {
+        return console.log('unable to scan directory')
+      }
+      files.forEach(async (file)=>{
+        const fileObj = {
+          evidence: file,
+          reportId: id
+        }
+        const newEvidence = await models.Evidence.create(fileObj)
+      })
+    })
+
+    const contact = JSON.parse(completeData.contact)
+    contact.reportId = completeData.id
+    await models.Contact.create(contact)
     return completeData.id
-
-  //   const contact = completeData.contact
-  //   contact.reportId = completeData.id
-  //   await models.Contact.create(contact)
-  //   return completeData.id
   }
 
-  // async createEvidence(data) {
-  //   const completeData = {
-  //     ...data,
-  //     reportId: this.lastId
-  //   }
-
-  //   try {
-  //     const evidence = await models.Evidence.create(completeData)
-  //     return evidence
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-
-  // }
+  async createEvidence(data) {
+    const completeData = {
+      ...data,
+      reportId: 6589
+    }
+    try {
+      const evidence = await models.Evidence.create(completeData)
+      return evidence
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   async find() {
     const reports = await models.Report.findAll(
