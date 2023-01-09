@@ -14,9 +14,7 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${file.originalname}`)
   }
 })
-const uploads = multer({
-  storage
-}).single('img')
+
 
 const removeDir = function(path) {
   if (fs.existsSync(path)) {
@@ -95,18 +93,44 @@ router.post('/', async(req, res) => {
   }
 })
 
-router.post('/file', uploads, async(req, res, nex)=>{
-  const data = {
-    evidence: fs.readFileSync(path.join(__dirname, '../uploads/' + req.file.filename))
-  }
+const upload = multer({
+    storage,
+}).array('evidence')
+
+router.post('/file', upload, async(req, res, nex)=>{
+
+  // const data = {
+  //   evidence: fs.readFileSync(path.join(__dirname, '../uploads/' + req.file.filename))
+  // }
+
+
   try {
-    const newEvidence = await service.createEvidence(data)
-    const pathToDir = path.join(__dirname, "../uploads")
-    removeDir(pathToDir)
-    res.status(201).json('file upload')
+
+
+    const body = req.body
+    console.log('entre al router')
+    const report = await service.create(body)
+
+
+    // fs.readdir(filesDir, (err, files) => {
+    //   if (err)
+    //   console.log(err);
+    //   else {
+    //     console.log("\nCurrent directory filenames:");
+    //     files.forEach(file => {
+    //       console.log(file);
+    //     })
+    //   }
+    // })
+
+    res.status(201).json(report)
+    // const newEvidence = await service.createEvidence(data)
+    // const pathToDir = path.join(__dirname, "../uploads")
+    // removeDir(pathToDir)
+    // res.status(201).json('file upload')
   } catch (error) {
     console.error(error)
-    res.json("cannot upload file")
+    res.status(401).json("cannot upload file")
   }
 })
 
