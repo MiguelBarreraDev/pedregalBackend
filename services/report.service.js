@@ -19,7 +19,6 @@ class ReportService {
 
     const newReport = await models.Report.create(completeData)
 
-
     if (typeof completeData.persons === 'object') {
       for (let i = 0; i < completeData.persons.length; i++) {
         const person = JSON.parse(completeData.persons[i])
@@ -44,7 +43,6 @@ class ReportService {
       await models.Place.create(place)
     }
 
-
     const filesDir = path.join(__dirname, '../uploads')
 
     const readFiles = fs.readdir(filesDir, (err, files) => {
@@ -64,19 +62,6 @@ class ReportService {
     contact.reportId = completeData.id
     await models.Contact.create(contact)
     return completeData.id
-  }
-
-  async createEvidence(data) {
-    const completeData = {
-      ...data,
-      reportId: 6589
-    }
-    try {
-      const evidence = await models.Evidence.create(completeData)
-      return evidence
-    } catch (error) {
-      console.error(error)
-    }
   }
 
   async find() {
