@@ -6,6 +6,9 @@ const service = new TiposService()
 router.get('/', async(req, res) =>{
   try {
     const typeReport = await service.find()
+    // if (typeReport) {
+    //   res.json({ msg: "not found"})
+    // }
     res.json(typeReport)
   } catch (error) {
     console.error(error)

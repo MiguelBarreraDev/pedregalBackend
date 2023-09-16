@@ -1,78 +1,77 @@
-const express = require('express')
-const router = express.Router()
-const ReportService = require('../services/report.service')
-const service = new ReportService()
-const fs = require('fs')
-const path = require('path')
-const removeDir = require('../utils/cleanDir')
-const upload = require('../middlewares/multerRead')
-const {sendMail, mailOptions} = require('../utils/nodemailer')
-const template = require('../utils/email')
+const express = require('express');
+const router = express.Router();
+const ReportService = require('../services/report.service');
+const service = new ReportService();
+const fs = require('fs');
+const path = require('path');
+const upload = require('../middlewares/multerRead');
+const sendMaiilMachine = require('../utils/nodemailer');
 
-router.get('/', async(req, res) =>{
+router.get('/', async (req, res) => {
   try {
-    const reports = await service.find()
-    res.json(reports)
+    const reports = await service.find();
+    res.json(reports);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-})
+});
 
-router.get('/:id', async(req, res) =>{
+router.get('/:id', async (req, res) => {
   try {
-    const {id} = req.params
-    const report = await service.findOne(id)
-    res.json(report)
+    const { id } = req.params;
+    const report = await service.findOne(id);
+    res.json(report);
   } catch (error) {
-    res.status(401).send(error)
+    res.status(401).send(error);
   }
-})
+});
 
-router.post('/', upload, async(req, res, nex)=>{
-  const filesDir = path.join(__dirname, '../uploads')
-  // const pathfile = path.join(__dirname, '../utils/email.html')
-  // let datos
-  // fs.readFile(pathfile, 'utf-8',(err, data) => {
-  //   if (err){
-  //     console.error(err)
-  //   } else {
-  //     datos = data
-  //   }
-  // })
-  try {
-    const body = req.body
-    const datos = template(body)
-    console.log(datos)
-    // const report = await service.create(body)
-    // const {email} = JSON.parse(body.contact)
-    // sendMail(mailOptions(email, datos))
-    // removeDir(filesDir)
-    // res.status(201).json(report)
-  } catch (error) {
-    res.status(401).json("cannot upload file")
-  }
-})
+router.post('/', upload, async (req, res, nex) => {
+  const arrayFiles = () => {
+    const filesDir = path.join(__dirname, '../uploads');
+    const fileObj = fs.readdirSync(filesDir);
+    let arrayFile = [];
+    for (let i = 0; i < fileObj.length; i++) {
+      arrayFile.push({
+        filename: fileObj[i],
+        path: `${__dirname}/../uploads/${fileObj[i]}`,
+      });
+    }
+    return arrayFile;
+  };
 
-router.patch('/:id', async(req, res)=>{
-  const {id} = req.params
-  const body = req.body
   try {
-    const upDateReport = await service.upDate(id, body)
-    res.json(upDateReport)
+    const body = req.body;
+    //secciont to set template email
+    const report = await service.create(body);
+    const { email } = JSON.parse(body.contact);
+    sendMaiilMachine(email, arrayFiles(), report);
+    // console.log(report.id);
+    res.status(201).send(report.id);
   } catch (error) {
-    console.log(error)
+    res.status(401).json('cannot upload file');
   }
-})
+});
+
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  try {
+    const upDateReport = await service.upDate(id, body);
+    res.json(upDateReport);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 router.delete('/:id', async (req, res) => {
   try {
-    const {id} = req.params
-    const del = await service.delete(id)
-    res.json(del)
+    const { id } = req.params;
+    const del = await service.delete(id);
+    res.json(del);
   } catch (error) {
-
+    console.log(error);
   }
-}
-);
+});
 
-module.exports = router
+module.exports = router;
