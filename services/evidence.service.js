@@ -8,7 +8,9 @@ class EvidenceSchema {
     return evidence;
   }
   async findById(id) {
-    const evidence = await models.Evidence.findByPk(id);
+    const evidence = await models.Evidence.findAll({
+      where: { report_id: id },
+    });
     return evidence;
   }
 }

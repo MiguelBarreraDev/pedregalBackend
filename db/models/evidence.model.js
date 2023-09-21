@@ -10,6 +10,11 @@ const EvidenceSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
+  fileName:{
+    field: 'file_name',
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
   evidence:{
     allowNull: true,
     type: DataTypes.BLOB,

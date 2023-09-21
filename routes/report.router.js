@@ -42,10 +42,13 @@ router.post('/', upload, async (req, res, nex) => {
 
   try {
     const body = req.body;
-    //secciont to set template email
     const report = await service.create(body);
     const { email } = JSON.parse(body.contact);
-    sendMaiilMachine(email, arrayFiles(), report);
+    // try {
+    //   sendMaiilMachine(email, arrayFiles(), body);
+    // } catch (error) {
+    //   console.log('problemas con envio', error);
+    // }
     // console.log(report.id);
     res.status(201).send(report.id);
   } catch (error) {
