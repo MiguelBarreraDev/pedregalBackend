@@ -13,6 +13,16 @@ class EvidenceSchema {
     });
     return evidence;
   }
+
+  /**
+   * Find evidence by report id
+   */
+  async findByReportId(reportId) {
+    const evidences = await models.Evidence.findAll({
+      where: { reportId },
+    });
+    return evidences;
+  }
 }
 
 module.exports = EvidenceSchema;
