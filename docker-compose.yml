@@ -5,8 +5,8 @@ services:
     image: postgres:13
     environment:
       - POSTGRES_DB=pedregal_report
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=admin_pedregal
+      - POSTGRES_PASSWORD=HNrMvA7sPjNULKmjEMvR
     ports:
       - "5432:5432"
     volumes:
@@ -15,7 +15,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
-      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_DEFAULT_EMAIL=lineaetica@elpedregalsa.com
+      - PGADMIN_DEFAULT_PASSWORD=Elpedregaletico
     ports:
       - 5050:80

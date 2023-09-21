@@ -8,7 +8,8 @@ router.get('/', async (req, res) => {
     const conditions = await service.find()
     res.json(conditions)
   } catch (error) {
-
+    // eslint-disable-next-line no-console
+    console.error(error)
   }
 })
 
@@ -18,7 +19,8 @@ router.post('/', async (req, res) => {
     const newCondition = await service.create(body)
     res.json(newCondition)
   } catch (error) {
-
+    // eslint-disable-next-line no-console
+    console.error(error)
   }
 })
 

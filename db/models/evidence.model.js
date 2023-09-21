@@ -10,21 +10,26 @@ const EvidenceSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
+  fileName:{
+    field: 'file_name',
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
   evidence:{
     allowNull: true,
-    type: DataTypes.BIGINT,
+    type: DataTypes.BLOB,
   },
-  // reportId:{
-  //   field: 'report_id',
-  //   allowNull: false,
-  //   type: DataTypes.INTEGER,
-  //   references: {
-  //     model: REPORT_TABLE,
-  //     key: 'id'
-  //   },
-  //   onUpdate: 'CASCADE',
-  //   onDelete: 'SET NULL'
-  // },
+  reportId:{
+    field: 'report_id',
+    allowNull: false,
+    type: DataTypes.STRING,
+    references: {
+      model: REPORT_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -35,7 +40,10 @@ const EvidenceSchema = {
 
 class Evidence extends Model{
   static associate(models) {
-
+    this.belongsTo(models.Report, {
+      onDelete: 'cascade',
+      as: 'report'
+    })
   }
 
   static config(sequelize) {

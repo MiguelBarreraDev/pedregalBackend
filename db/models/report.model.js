@@ -7,9 +7,9 @@ const REPORT_TABLE = 'reports'
 const ReportSchema = {
   id: {
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    unique: true,
+    type: DataTypes.STRING
   },
   tiposId:{
     field: 'tipos_id',
@@ -31,6 +31,11 @@ const ReportSchema = {
     allowNull: true,
     field: 'fecha_fin',
     type: DataTypes.DATE
+  },
+  referenceEv:{
+    allowNull: true,
+    field: 'reference_Ev',
+    type: DataTypes.TEXT
   },
   description:{
     allowNull: false,
@@ -114,6 +119,12 @@ class Report extends Model{
     })
     this.hasOne(models.Contact,{
       as: 'contact',
+      foreignKey: 'reportId',
+      onDelete: 'cascade',
+      hooks: true
+    })
+    this.hasMany(models.Evidence,{
+      as: 'evidences',
       foreignKey: 'reportId',
       onDelete: 'cascade',
       hooks: true

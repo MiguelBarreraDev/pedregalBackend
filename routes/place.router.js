@@ -8,7 +8,7 @@ router.get('/', async(req, res) =>{
     const places = await service.find()
     res.json(places)
   } catch (error) {
-
+    console.error(error)
   }
 })
 
@@ -18,7 +18,7 @@ router.post('/', async(req, res) => {
     const newPlace = await service.create(body)
     res.json(newPlace)
   } catch (error) {
-
+    console.error(error)
   }
 })
 

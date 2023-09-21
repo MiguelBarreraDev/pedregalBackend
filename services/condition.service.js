@@ -1,18 +1,17 @@
-const { models } = require('../libs/sequelize')
-
+const { models } = require('../libs/sequelize');
 
 class ConditionService {
-  constructor(){}
+  constructor() {}
 
-  async create(data){
-    const newCondition = await models.Condition.create(data)
-    return newCondition
+  async create(data) {
+    const newCondition = await models.Condition.create(data);
+    return newCondition;
   }
 
-  async find(){
-    const conditions = await models.Condition.findAll()
-    return conditions
+  async find() {
+    const conditions = await models.Condition.findAll();
+    return conditions;
   }
 }
 
-module.exports = ConditionService
+module.exports = ConditionService;
